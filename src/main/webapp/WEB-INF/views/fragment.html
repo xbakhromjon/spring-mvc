@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head('name')">
+    <meta charset="UTF-8">
+    <title th:text="${name}"></title>
+    <link rel="stylesheet" th:href="@{/needs/css/main.css}">
+</head>
+<body>
+<header th:fragment="navbar">
+    <p><a th:href="@{/auth/login/}">Login</a></p>
+    <p><a th:href="@{/auth/users/}">Users List</a></p>
+</header>
+
+</body>
+</html>
