@@ -3,6 +3,7 @@ package uz.elmurodov.controllers;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,7 @@ public class AuthController {
 
     private final List<UserDto> users = Lists.newArrayList(
             new UserDto("muslim", 22),
-            new UserDto("akbak", 11),
+            new UserDto("akbar", 11),
             new UserDto("nurislom", 17)
     );
 
@@ -44,7 +45,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    private String login(LoginDto loginDto) {
+    private String login( LoginDto loginDto) {
         System.out.println("loginDto = " + loginDto);
         System.out.println("Login Successfully");
         return "redirect:/";
@@ -55,5 +56,4 @@ public class AuthController {
         model.addAttribute("users", users);
         return "auth/users_list";
     }
-
 }
