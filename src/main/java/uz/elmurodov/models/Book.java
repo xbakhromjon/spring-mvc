@@ -1,43 +1,28 @@
 package uz.elmurodov.models;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+
+@Getter
+@Setter
 public class Book {
     private UUID id;
     private String name;
-    private int pageCount;
+    private Integer pageCount;
+    private String author;
 
     public Book() {
-    }
-
-    public Book(String bookName, int pageCount) {
         this.id = UUID.randomUUID();
-        this.name = bookName;
-        this.pageCount = pageCount;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
+    public Book(UUID id, String name, String author, Integer pageCount) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPageCount(int pageCount) {
+        this.author = author;
         this.pageCount = pageCount;
     }
 }

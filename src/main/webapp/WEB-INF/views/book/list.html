@@ -3,24 +3,24 @@
 <head th:include="fragment.html :: head('Book List')">
 </head>
 <body>
-<section th:include="fragment.html :: navbar">
-
-
-</section>
-
+<section th:include="fragment.html :: navbar"></section>
+<section th:include="popups.html :: create_book_modal" ></section>
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-10 mx-auto">
+            <div class="mx-auto">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createBookModal">
+                    <i class="fa fa-plus"></i> Add
+                </button>
                 <table class="table">
                     <thead class="table-dark">
-                        <tr>
-                            <th>id</th>
-                            <th>name</th>
-                            <th>author</th>
-                            <th>page count</th>
-                            <th>Action</th>
-                        </tr>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>author</th>
+                        <th>page count</th>
+                        <th>Action</th>
+                    </tr>
                     </thead>
 
                     <tbody>
@@ -30,9 +30,9 @@
                         <td th:text="${book.author}"></td>
                         <td th:text="${book.pageCount}"></td>
                         <td>
-                            <a th:href="@{/book/{id}/detail/(id=${book.uuid}) }" class="btn btn-primary">Details</a> ||
-                            <a th:href="@{/book/delete}" class="btn btn-danger">Delete</a> ||
-                            <a th:href="@{/book/update}" class="btn btn-secondary">Update</a>
+                            <a th:href="@{/book/detail/{id}/(id=${book.id}) }" class="btn btn-primary">Details</a> ||
+                            <a th:href="@{/book/delete/{id}/(id=${book.id}) }" class="btn btn-danger">Delete</a> ||
+                            <a th:href="@{/book/update/{id}/(id=${book.id}) }" class="btn btn-secondary">Update</a>
                         </td>
                     </tr>
                     </tbody>
@@ -41,5 +41,8 @@
         </div>
     </div>
 </section>
+
+
+<section th:include="fragment.html :: js_sources"></section>
 </body>
 </html>
