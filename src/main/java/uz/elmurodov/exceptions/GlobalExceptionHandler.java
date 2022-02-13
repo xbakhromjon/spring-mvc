@@ -10,7 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({NotFoundException.class})
-    public String errorjon(NotFoundException e, Model model, WebRequest request) {
+    public String exceptionHandler(NotFoundException e, Model model, WebRequest request) {
         String path = ((ServletWebRequest) (request)).getRequest().getRequestURI();
         model.addAttribute("message", e.getMessage());
         model.addAttribute("status", e.getStatus().value());

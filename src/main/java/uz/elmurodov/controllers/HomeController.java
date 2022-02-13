@@ -1,16 +1,15 @@
 package uz.elmurodov.controllers;
 
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uz.elmurodov.annotations.MvcController;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@MvcController
-@RequestMapping
+@Controller
 public class HomeController {
 
-    @RequestMapping(value = {"/", "/home"})
+    @RequestMapping(value = {"/", "/home/"}, method = RequestMethod.GET)
     public String homePage() {
-        return "home";
+        return "/home";
     }
-
 }
