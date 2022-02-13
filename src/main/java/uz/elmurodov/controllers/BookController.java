@@ -37,21 +37,11 @@ public class BookController {
     }
 
 
-    @RequestMapping(value = "create/", method = RequestMethod.GET)
-    private String createPage() {
-        return "/book/create";
-    }
 
-    @RequestMapping(value = "delete/{id}/", method = RequestMethod.GET)
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     private ModelAndView deletePage(ModelAndView modelAndView, @PathVariable String id) {
         Optional<Book> optionalBook = books.stream()
                 .filter(book -> book.getId().toString().equals(id)).findFirst();
-
-//        if (optionalBook.isEmpty()) {
-//            modelAndView.setViewName("error/404");
-//            modelAndView.addObject("message", String.format("Book with id %s not found", id));
-//            return modelAndView;
-//        }
 
         if (optionalBook.isEmpty())
             throw new NotFoundException(String.format("Book with id %s not found", id), HttpStatus.NOT_FOUND);
@@ -61,19 +51,7 @@ public class BookController {
         return modelAndView;
     }
 
-//    @ExceptionHandler({RuntimeException.class})
-//    public String errorjon(RuntimeException e, Model model) {
-//        model.addAttribute("message", e.getMessage());
-//        return "error/404";
-//    }
-
-    @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
-    private String details(@PathVariable UUID id) {
-        System.out.println("id = " + id);
-        return "" + id;
-    }
-
-    @RequestMapping(value = "list/", method = RequestMethod.GET)
+    @RequestMapping(value = "list", method = RequestMethod.GET)
     private String bookListPage(Model model) {
         model.addAttribute("books", books);
         return "book/list";
@@ -85,13 +63,49 @@ public class BookController {
         System.out.println("dto = " + dto);
         Book book = mapper.toEntity(dto);
         books.add(book);
+        return "redirect:/book/list";
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
+    private String delete(@PathVariable String id) {
+        books.removeIf(book -> book.getId().toString().equals(id));
+        return "redirect:/book/list";
+    }
+
+
+    @RequestMapping("update/{id}")
+    private ModelAndView update(@PathVariable String id, ModelAndView modelAndView) {
+        Optional<Book> optional = books.stream().filter(book -> book.getId().toString().equals(id)).findFirst();
+        Book book = optional.orElseThrow(() -> new NotFoundException(String.format("Book not found %s", id)));
+        modelAndView.addObject("book", book);
+        modelAndView.setViewName("book/update");
+        return modelAndView;
+    }
+
+
+    // book update bn book create bir xil
+    // TODO: 2/13/2022 Keyin almashtirish kerak
+    @RequestMapping(value = "update/{id}", method = RequestMethod.POST)
+    private String update(@PathVariable String id, @ModelAttribute BookCreateDto bookCreateDto) {
+        for (Book book : books) {
+            if (book.getId().toString().equals(id)) {
+                book.setName(bookCreateDto.getName());
+                book.setAuthor(bookCreateDto.getAuthor());
+                book.setPageCount(bookCreateDto.getPageCount());
+                break;
+            }
+        }
         return "redirect:/book/list/";
     }
 
-    @RequestMapping(value = "delete/{id}/", method = RequestMethod.POST)
-    private String delete(@PathVariable String id) {
-        books.removeIf(book -> book.getId().toString().equals(id));
-        return "redirect:/book/list/";
+
+    @RequestMapping("detail/{id}")
+    private ModelAndView detail(@PathVariable String id, ModelAndView modelAndView) {
+        Optional<Book> optional = books.stream().filter(book -> book.getId().toString().equals(id)).findFirst();
+        Book book = optional.orElseThrow(() -> new NotFoundException(String.format("Book not found %s", id)));
+        modelAndView.addObject("book", book);
+        modelAndView.setViewName("/book/detail");
+        return modelAndView;
     }
 
 
